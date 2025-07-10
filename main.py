@@ -54,7 +54,8 @@ try:
 
     # Combine input fields into one input string
     df_cleaned["input_text"] = df_cleaned.apply(
-        lambda row: f"Name: {row['Name']}; DisplayName: {row['DisplayName']}; Description: {row['Description']}; Child_Relationship: {row['Child_Relationship']}",
+        lambda
+            row: f"Name: {row['Name']}; DisplayName: {row['DisplayName']}; Description: {row['Description']}; Child_Relationship: {row['Child_Relationship']}; ObjectType: {row['ObjectType']}; Configuration: {row['AppObjectConfiguration']}",
         axis=1
     )
 
