@@ -104,54 +104,54 @@ training_args = Seq2SeqTrainingArguments(
     report_to="none",
 )
 
-# ========== TRAINING ==========
-log("🧠 Starting training")
-trainer = Seq2SeqTrainer(
-    model=model,
-    args=training_args,
-    train_dataset=tokenized_dataset,
-    tokenizer=tokenizer,
-    data_collator=DataCollatorForSeq2Seq(tokenizer, model=model),
-)
-
-trainer.train()
-log("✅ Training complete")
-
-# ========== EVALUATION ==========
-log("📈 Starting evaluation")
-
-predictions, references = [], []
-for example in dataset:
-    input_text = example["description"]
-    reference_output = example["formio_json"]
-
-    inputs = tokenizer(input_text, return_tensors="pt", padding=True, truncation=True).to(model.device)
-    output_tokens = model.generate(**inputs, max_length=512)
-    decoded_pred = tokenizer.decode(output_tokens[0], skip_special_tokens=True)
-
-    predictions.append(decoded_pred)
-    references.append(reference_output)
-
-def compute_similarity(preds, refs):
-    return sum([SequenceMatcher(None, p.strip(), r.strip()).ratio() for p, r in zip(preds, refs)]) / len(preds)
-
-similarity = compute_similarity(predictions, references)
-log(f"🎯 Similarity Score: {similarity:.4f}")
-
-results_df = pd.DataFrame({
-    "input": [ex["description"] for ex in dataset],
-    "expected_json": references,
-    "predicted_json": predictions
-})
-results_df.to_csv(os.path.join(LOG_DIR, "predictions_vs_actual.csv"), index=False)
-log("📤 Saved predictions_vs_actual.csv")
-
-
-# ========== SAVE MODEL ==========
-log("💾 Saving model weights as .pth")
-import torch
-
-model_path = os.path.join(MODEL_DIR, "flan_t5_small_model.pt")
-torch.save(model.state_dict(), model_path)
-tokenizer.save_pretrained(MODEL_DIR)
-log(f"📦 Model weights saved to {model_path}")
+# # ========== TRAINING ==========
+# log("🧠 Starting training")
+# trainer = Seq2SeqTrainer(
+#     model=model,
+#     args=training_args,
+#     train_dataset=tokenized_dataset,
+#     tokenizer=tokenizer,
+#     data_collator=DataCollatorForSeq2Seq(tokenizer, model=model),
+# )
+#
+# trainer.train()
+# log("✅ Training complete")
+#
+# # ========== EVALUATION ==========
+# log("📈 Starting evaluation")
+#
+# predictions, references = [], []
+# for example in dataset:
+#     input_text = example["description"]
+#     reference_output = example["formio_json"]
+#
+#     inputs = tokenizer(input_text, return_tensors="pt", padding=True, truncation=True).to(model.device)
+#     output_tokens = model.generate(**inputs, max_length=512)
+#     decoded_pred = tokenizer.decode(output_tokens[0], skip_special_tokens=True)
+#
+#     predictions.append(decoded_pred)
+#     references.append(reference_output)
+#
+# def compute_similarity(preds, refs):
+#     return sum([SequenceMatcher(None, p.strip(), r.strip()).ratio() for p, r in zip(preds, refs)]) / len(preds)
+#
+# similarity = compute_similarity(predictions, references)
+# log(f"🎯 Similarity Score: {similarity:.4f}")
+#
+# results_df = pd.DataFrame({
+#     "input": [ex["description"] for ex in dataset],
+#     "expected_json": references,
+#     "predicted_json": predictions
+# })
+# results_df.to_csv(os.path.join(LOG_DIR, "predictions_vs_actual.csv"), index=False)
+# log("📤 Saved predictions_vs_actual.csv")
+#
+#
+# # ========== SAVE MODEL ==========
+# log("💾 Saving model weights as .pth")
+# import torch
+#
+# model_path = os.path.join(MODEL_DIR, "flan_t5_small_model.pt")
+# torch.save(model.state_dict(), model_path)
+# tokenizer.save_pretrained(MODEL_DIR)
+# log(f"📦 Model weights saved to {model_path}")

@@ -126,14 +126,114 @@ df_final.to_csv("output/combined_form_data.csv", index=False)
 ```
 
 ---
+# 🧾 Form.io JSON Generation — Data Preprocessing & Training Pipeline
 
-## 🔮 Next Steps (Optional)
-
-- 🧠 Generate Form.io-compatible JSON from this data
-- 🧱 Build a Streamlit dashboard to view/edit form definitions
-- 🤖 Train ML models for automatic form generation or analysis
+This project sets up a full data preprocessing and model training pipeline to train a T5-based sequence-to-sequence model (e.g., `google/flan-t5-base`) that generates Form.io-compatible JSON structures from structured tabular input data.
 
 ---
+
+## 📂 Directory Structure
+project/
+│
+├── sql_connection/
+│ └── db.py # Contains df_final DataFrame loaded from SQL Server
+│
+├── logs/
+│ └── training_log.txt # Training logs written here
+│
+├── model/ # Model outputs will be saved here
+│
+├── main.py # Main preprocessing and training script
+├── README.md # You're reading it
+
+
+---
+
+## 🧠 Objective
+
+Train a model that can generate structured Form.io JSON schemas from input text that combines fields like `Name`, `DisplayName`, `Description`, and more.
+
+---
+
+## ⚙️ Setup
+
+### 🔧 Requirements
+
+- Python 3.8+
+- Transformers (`pip install transformers datasets`)
+- PyTorch
+- Pandas
+
+---
+
+## 🚦 Pipeline Steps
+
+### 1. ✅ **Initial Setup**
+
+- Define model name (`google/flan-t5-base`)
+- Create directories for logs and model checkpoints
+- Set up basic file logging
+
+### 2. 📥 **Load Data**
+
+- Load the DataFrame `df_final` from a SQL database via `sql_connection.db`
+- Required columns: `Name`, `DisplayName`, `Description`, `Child_Relationship`, `Container`
+- Missing or empty entries in these columns are dropped
+- Final shape is validated after cleaning
+
+### 3. 🧼 **Preprocess Data**
+
+- Concatenate key fields into a single string:  
+  Format:  
+
+Name: ...; DisplayName: ...; Description: ...; Child_Relationship: ...
+
+- Rename columns:
+- `input_text` → `description`
+- `Container` → `formio_json`
+- Convert cleaned DataFrame into a HuggingFace `Dataset`
+
+### 4. 📦 **Load Tokenizer & Model**
+
+- Load tokenizer and sequence-to-sequence model (`AutoModelForSeq2SeqLM`) from HuggingFace
+
+### 5. 🧪 **Tokenization Function**
+
+- Tokenize both:
+- Input (`description`)
+- Target (`formio_json`)
+- Apply max sequence length of 512
+- Tokenized dataset is ready for training
+
+### 6. ⚙️ **Training Arguments**
+
+- Define training hyperparameters:
+- Learning rate: `5e-5`
+- Epochs: `5`
+- Batch size: `4`
+- Weight decay: `0.01`
+- Logging every `10` steps
+- No evaluation or model saving during training
+
+---
+
+## 📌 Key Files
+
+| File              | Purpose                                   |
+|-------------------|--------------------------------------------|
+| `main.py`         | Core training script with all logic       |
+| `db.py`           | Connects to DB and loads `df_final`        |
+| `training_log.txt`| Logs info, errors, and processing status  |
+
+---
+
+## 🧪 Example Input → Output
+
+**Input:**  
+```text
+Name: User; DisplayName: User Profile; Description: User's personal information; Child_Relationship: has_form;
+
+
 
 ## 👨‍💻 Author
 

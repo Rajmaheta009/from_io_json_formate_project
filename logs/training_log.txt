@@ -54,3 +54,12 @@
 2025-07-08 17:57:37,909 — INFO — \U0001f9fc Tokenizing dataset
 2025-07-08 17:59:18,298 — INFO — \u2699\ufe0f Setting training arguments
 2025-07-08 17:59:18,356 — INFO — \U0001f9e0 Starting training
+2025-07-09 15:13:48,730 — INFO — \U0001f680 Training started
+2025-07-09 15:13:48,731 — INFO — \U0001f4e5 Loading dataset
+2025-07-09 15:13:49,795 — INFO — \u2705 Dataset loaded with 8577 rows
+2025-07-09 21:25:16,346 — INFO — \U0001f680 Training started
+2025-07-09 21:25:16,347 — INFO — \U0001f4e5 Loading dataset
+2025-07-09 21:25:17,599 — INFO — \u2705 Dataset loaded with 8577 rows
+2025-07-09 21:39:52,353 — INFO — \U0001f680 Training started
+2025-07-09 21:39:52,353 — INFO — \U0001f4e5 Loading dataset
+2025-07-09 21:39:53,558 — INFO — \u2705 Dataset loaded with 8577 rows
