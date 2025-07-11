@@ -63,3 +63,11 @@
 2025-07-09 21:39:52,353 — INFO — \U0001f680 Training started
 2025-07-09 21:39:52,353 — INFO — \U0001f4e5 Loading dataset
 2025-07-09 21:39:53,558 — INFO — \u2705 Dataset loaded with 8577 rows
+2025-07-11 13:07:07,796 — INFO — \U0001f680 Training pipeline started
+2025-07-11 13:07:07,797 — INFO — \U0001f5a5\ufe0f CUDA Available: False
+2025-07-11 13:07:07,797 — INFO — \U0001f4e5 Loading dataset
+2025-07-11 13:07:08,865 — INFO — \u2705 Dataset loaded: 6861 training rows, 1716 validation rows
+2025-07-11 13:07:08,866 — INFO — \U0001f4e6 Loading tokenizer and model
+2025-07-11 13:08:27,973 — INFO — \U0001f9fc Tokenizing datasets
+2025-07-11 13:09:46,542 — INFO — \u2699\ufe0f Setting training arguments
+2025-07-11 13:09:46,548 — INFO — \U0001f9e0 Starting training
